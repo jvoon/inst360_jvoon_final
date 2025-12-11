@@ -148,7 +148,7 @@ function loadModels() {
 
     // Normalize cube exactly like old system (scale 1.3)
     baseModels.cube.userData.normalizedSize = 
-      normalizeModelSize(baseModels.cube, 23);
+      normalizeModelSize(baseModels.cube, 3);
 
     baseModels.cube.traverse(child => {
       if (child.isMesh) {
@@ -397,3 +397,4 @@ function animate() {
 
   composer.render();
 }
+
