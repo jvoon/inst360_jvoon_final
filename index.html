@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>3D Weather Dashboard</title>
+    <link rel="stylesheet" href="style.css" />
+
+    <!-- Import Maps -->
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://cdn.jsdelivr.net/npm/three@0.164/build/three.module.js",
+            "three/examples/jsm/": "https://cdn.jsdelivr.net/npm/three@0.164/examples/jsm/"
+        }
+    }
+    </script>
+
+    <!-- Cute Rounded Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+</head>
+
+
+<body>
+  <header id="header">
+    <h1>Weather Cubes</h1>
+    <p class="subtext">A fun way to get the weather, catch some dopamine, and blast your retinas. (Sunglasses recommended)</p>
+
+    <p id="subtext">
+      Each cube represents a city: | Height = temperature | Spin = wind speed | Glow color = weather condition
+    </p>
+
+    <div id="modelButtons">
+      <button id="toggleModelBtn">oeeae</button>
+    </div>
+  </header>
+
+  <!-- UI Panel -->
+  <div id="ui">
+    <h2>Weather Dashboard</h2>
+        <!-- CITY CONTROLS -->
+        <div id="cubeControls"></div>
+    </div>
+
+    <script type="module" src="main.js"></script>
+</body>
+</html>

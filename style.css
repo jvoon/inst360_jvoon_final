@@ -1,0 +1,119 @@
+/* GENERAL -------------------------------------------------- */
+body {
+  margin: 0;
+  overflow: hidden;
+  font-family: "Jua", sans-serif;
+  /* background: linear-gradient(to bottom, #2fe7ff, #000000); */
+  color: #333;
+}
+
+h1, h2, h3, label {
+  margin: 0;
+  font-weight: 400;
+}
+
+/* HEADER -------------------------------------------------- */
+#header {
+  position: absolute;
+  top: 15px;
+  width: 100%;
+  text-align: center;
+  z-index: 10;
+  color: rgb(255, 254, 243);
+  /* text-shadow: 5px 5px 5px rgba(0,0,0,0.4); */
+   /* -webkit-text-stroke: 2px rgba(11, 92, 243, 0.9); */
+
+  text-shadow:
+    0 0 6px rgba(97, 113, 255, 0.9),
+    0 0 12px rgba(197, 107, 23, 0.7);
+}
+
+#header h1 {
+  font-size: 48px;
+}
+
+.subtext {
+  font-size: 18px;
+  opacity: 0.9;
+}
+
+#modelButtons {
+  margin-top: 10px;
+}
+
+#modelButtons button {
+  background: #ffd1e8;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 18px;
+  transition: 0.2s;
+}
+#modelButtons button:hover {
+  transform: scale(1.05);
+}
+
+/* UI PANEL -------------------------------------------------- */
+#ui {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  /* background: rgba(255, 255, 230, 0.9); */
+  padding: 10px;
+  border-radius: 10px;
+  max-width: 100%;
+  width: 900px;
+  text-align: center;
+  backdrop-filter: blur(6px);
+  
+}
+
+#description {
+  margin: 10px auto 15px;
+  font-size: 16px;
+  color: #555;
+}
+
+/* CUBE CONTROL PANEL ---------------------------------------- */
+#cubeControls {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.cubeColumn {
+  background: white;
+  padding: 10px;
+  border-radius: 8px;
+  width: 150px;
+  text-align: left;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+  
+}
+
+.cubeColumn label {
+  font-size: 18px;
+  color: #444;
+}
+
+/* RESPONSIVE SWITCH: horizontal → vertical ------------------ */
+@media (max-width: 700px) {
+  #cubeControls {
+    flex-direction: column;
+  }
+}
+
+/* FLOATING LABELS ABOVE CUBES -------------------------------- */
+.cubeLabel {
+  position: absolute;
+  padding: 4px 10px;
+  background: rgba(255,255,255,0.9);
+  border-radius: 6px;
+  font-size: 14px;
+  pointer-events: none;
+  transform: translate(-50%, -300%);
+}
