@@ -1,4 +1,4 @@
-/* GENERAL -------------------------------------------------- */
+/* body*/
 body {
   margin: 0;
   overflow: hidden;
@@ -12,7 +12,7 @@ h1, h2, h3, label {
   font-weight: 400;
 }
 
-/* HEADER -------------------------------------------------- */
+/* header*/
 #header {
   position: absolute;
   top: 15px;
@@ -55,7 +55,7 @@ h1, h2, h3, label {
   transform: scale(1.05);
 }
 
-/* UI PANEL -------------------------------------------------- */
+/* ui*/
 #ui {
   position: absolute;
   bottom: 20px;
@@ -77,7 +77,8 @@ h1, h2, h3, label {
   color: #555;
 }
 
-/* CUBE CONTROL PANEL ---------------------------------------- */
+
+/* cube control*/
 #cubeControls {
   display: flex;
   justify-content: center;
@@ -100,14 +101,14 @@ h1, h2, h3, label {
   color: #444;
 }
 
-/* RESPONSIVE SWITCH: horizontal → vertical ------------------ */
+/* responsive switch */
 @media (max-width: 700px) {
   #cubeControls {
     flex-direction: column;
   }
 }
 
-/* FLOATING LABELS ABOVE CUBES -------------------------------- */
+/* floating labels ahove the cube */
 .cubeLabel {
   position: absolute;
   padding: 4px 10px;
@@ -115,5 +116,7 @@ h1, h2, h3, label {
   border-radius: 6px;
   font-size: 14px;
   pointer-events: none;
+  /* the height!! */
   transform: translate(-50%, -300%);
 }
+
