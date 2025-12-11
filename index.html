@@ -5,7 +5,7 @@
     <title>3D Weather Dashboard</title>
     <link rel="stylesheet" href="style.css" />
 
-    <!-- Import Maps -->
+    <!-- import maps -->
     <script type="importmap">
     {
         "imports": {
@@ -15,18 +15,19 @@
     }
     </script>
 
-    <!-- Cute Rounded Font -->
+    <!-- font -->
     <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
 </head>
 
 
 <body>
+    <!-- header (wow this is bright) -->
   <header id="header">
     <h1>Weather Cubes</h1>
     <p class="subtext">A fun way to get the weather, catch some dopamine, and blast your retinas. (Sunglasses recommended)</p>
 
     <p id="subtext">
-      Each cube represents a city: | Height = temperature | Spin = wind speed | Glow color = weather condition
+      Each cube represents a city! | Height = temperature | Spin = wind speed | Glow color = weather condition
     </p>
 
     <div id="modelButtons">
@@ -34,13 +35,15 @@
     </div>
   </header>
 
-  <!-- UI Panel -->
+  <!-- ui panel at the bottom -->
   <div id="ui">
     <h2>Weather Dashboard</h2>
-        <!-- CITY CONTROLS -->
+        <!-- cube cards -->
         <div id="cubeControls"></div>
     </div>
 
+    <!-- update w/ the script -->
     <script type="module" src="main.js"></script>
 </body>
 </html>
+
