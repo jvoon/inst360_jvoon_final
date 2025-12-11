@@ -1,8 +1,4 @@
-// ============================================================================
-// THREE.JS WEATHER DASHBOARD — WITH MODEL SWITCHING + SIZE MATCHING
-// ============================================================================
-
-// -- MODULE IMPORTS --
+// imports 
 import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 
@@ -12,9 +8,8 @@ import {
   UnrealBloomPass
 } from "three/examples/jsm/Addons.js";
 
-// ============================================================================
-// GLOBAL VARIABLES
-// ============================================================================
+
+// global variables
 let scene, camera, renderer;
 let composer;
 let clock;
@@ -25,9 +20,9 @@ let baseModels = { cube: null, maxwell: null };
 
 const params = { float: true, floatAmplitude: 0.15, floatSpeed: 2 };
 
-// ============================================================================
-// WEATHER LOOKUP TABLES
-// ============================================================================
+
+// weather table
+//coloring cube
 const weatherColors = {
   0:0xffff69, 1:0xbaba00, 2:0xffb72c, 3:0xdf8000,
   45:0x80fa93, 48:0x009918,
@@ -48,9 +43,7 @@ const weatherText = {
   95:"Thunderstorm", 99:"Severe Thunderstorm"
 };
 
-// ============================================================================
-// CITY LIST
-// ============================================================================
+// setting cities via lat/long
 const citiesList = [
   { name:"Berlin, Germany", lat:52.52, lon:13.41 },
   { name:"College Park, MD", lat:39.0, lon:-76.9 },
@@ -64,34 +57,32 @@ const citiesList = [
   { name:"Anchorage, Alaska", lat:61.22, lon:-149.90 }
 ];
 
-// ============================================================================
-// START SYSTEM
-// ============================================================================
+
+
+//start animation
 init();
 animate();
 
-// ============================================================================
-// INIT()
-// ============================================================================
+//prepare rendering in the scene
 function init() {
 
   clock = new THREE.Clock();
   scene = new THREE.Scene();
 
-  // CAMERA
+  // create camera and position it
   camera = new THREE.PerspectiveCamera(
     60, window.innerWidth / window.innerHeight, 0.1, 100
   );
   camera.position.set(0, 0, 20);
 
-  // RENDERER
+  // reender!
   renderer = new THREE.WebGLRenderer({ antialias: true });
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.setPixelRatio(window.devicePixelRatio);
   renderer.shadowMap.enabled = true;
   document.body.appendChild(renderer.domElement);
 
-  // POSTPROCESSING
+  // post processing to add bloom effect (haha my eyes)
   composer = new EffectComposer(renderer);
   composer.addPass(new RenderPass(scene, camera));
 
@@ -103,7 +94,7 @@ function init() {
   );
   composer.addPass(bloom);
 
-  // LIGHTING
+  // lighting w/ a sun
   const sun = new THREE.DirectionalLight(0xffffff, 1);
   sun.position.set(5, 10, 5);
   scene.add(sun);
@@ -111,18 +102,16 @@ function init() {
   scene.add(new THREE.AmbientLight(0xffffff, 0.3));
   scene.add(new THREE.HemisphereLight(0x00fffd, 0x404040, 0.7));
 
-  // BACKGROUND
+  //background
   addGradientBackground();
 
-  // LOAD MODELS
+  // load models
   loadModels();
 
   window.addEventListener("resize", onWindowResize);
 }
 
-// ============================================================================
-// AUTO NORMALIZE MODEL SIZE — returns the target size used
-// ============================================================================
+//maxwell is to much of a unit, so i gotta autosize them so everything is nice and uniform
 function normalizeModelSize(model, targetSize = 1.3) {
   const box = new THREE.Box3().setFromObject(model);
   const size = new THREE.Vector3();
@@ -133,23 +122,23 @@ function normalizeModelSize(model, targetSize = 1.3) {
 
   model.scale.set(scale, scale, scale);
 
-  return targetSize; // store for matching Maxwell
+  return targetSize; // store for matching maxwell
 }
 
-// ============================================================================
-// LOAD BOTH MODELS
-// ============================================================================
+
+//load both models
 function loadModels() {
   const loader = new GLTFLoader();
 
-  // Load ROUNDED CUBE first
+  // load ROUNDED CUBE first
   loader.load("rounded_cube.glb", (gltf) => {
     baseModels.cube = gltf.scene;
 
-    // Normalize cube exactly like old system (scale 1.3)
+    // normalize cube exactly like prev system 
     baseModels.cube.userData.normalizedSize = 
       normalizeModelSize(baseModels.cube, 3);
 
+    //texturez
     baseModels.cube.traverse(child => {
       if (child.isMesh) {
         child.material = new THREE.MeshStandardMaterial({
@@ -162,17 +151,17 @@ function loadModels() {
       }
     });
 
-    // Load MAXWELL afterwards
+    // load MAXWELL afterwards
     loader.load("maxwell_the_cat_dingus.glb", (cat) => {
       baseModels.maxwell = cat.scene;
 
-      // Apply EXACT same visual size as your original cube
+      // apply same visual size as original cube
       normalizeModelSize(
         baseModels.maxwell,
         baseModels.cube.userData.normalizedSize
       );
 
-      // Create cubes only after both models loaded
+      // create cubes only after both models loaded
       createInitialCubes();
       setupUI();
       setupModelToggle();
@@ -180,9 +169,9 @@ function loadModels() {
   });
 }
 
-// ============================================================================
-// CREATE INITIAL 5 CUBES
-// ============================================================================
+
+
+//create the initial 5 cubes
 function createInitialCubes() {
   const spacing = 4;
 
@@ -202,7 +191,7 @@ function createInitialCubes() {
     scene.add(cube);
     cubes.push(cube);
 
-    // LABEL
+    // make the labels float with the models
     const label = document.createElement("div");
     label.className = "cubeLabel";
     label.textContent = cube.userData.city.name;
@@ -214,9 +203,9 @@ function createInitialCubes() {
   }
 }
 
-// ============================================================================
-// UI: MODEL TOGGLE BUTTON
-// ============================================================================
+
+
+// the toggle button to toggle between the two models
 function setupModelToggle() {
   const btn = document.getElementById("toggleModelBtn");
 
@@ -226,9 +215,7 @@ function setupModelToggle() {
   };
 }
 
-// ============================================================================
-// SWITCH MODEL TYPE
-// ============================================================================
+//the function to actually switch between the models
 function switchModel(type) {
   const base = baseModels[type];
 
@@ -241,7 +228,7 @@ function switchModel(type) {
       if (child.isMesh) child.material = child.material.clone();
     });
 
-    // Copy transform + data
+    // copy transform + data
     newCube.position.copy(oldCube.position);
     newCube.rotation.copy(oldCube.rotation);
     newCube.userData = oldCube.userData;
@@ -251,9 +238,9 @@ function switchModel(type) {
   });
 }
 
-// ============================================================================
-// BACKGROUND
-// ============================================================================
+
+
+//background
 function addGradientBackground() {
   const geo = new THREE.PlaneGeometry(100, 100);
   const mat = new THREE.ShaderMaterial({
@@ -273,9 +260,8 @@ function addGradientBackground() {
   scene.add(mesh);
 }
 
-// ============================================================================
-// UI PANEL CREATION
-// ============================================================================
+
+//creatomg the weather cards
 function setupUI() {
   const ui = document.getElementById("cubeControls");
 
@@ -314,9 +300,8 @@ function setupUI() {
   });
 }
 
-// ============================================================================
-// WEATHER FETCH
-// ============================================================================
+
+// FETCHING THE WEATHER VIA API
 async function fetchWeatherForCube(cube){
   const { lat, lon } = cube.userData.city;
 
@@ -330,9 +315,7 @@ async function fetchWeatherForCube(cube){
   }
 }
 
-// ============================================================================
-// RESIZE HANDLER
-// ============================================================================
+// resizing the window because this somehow helped to resolve the bug idk why but im not touching this with a 39 and a half foot long pole
 function onWindowResize() {
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
@@ -341,9 +324,7 @@ function onWindowResize() {
   composer.setSize(window.innerWidth, window.innerHeight);
 }
 
-// ============================================================================
-// ANIMATION LOOP
-// ============================================================================
+// animation loop
 function animate() {
   requestAnimationFrame(animate);
 
@@ -362,13 +343,13 @@ function animate() {
     const tempF = (temp * 9/5 + 32).toFixed(1);
     const windMph = wind * 2.23694;
 
-    // POSITION + FLOATING
+    // position and floating affected by nothing
     cube.position.y = 0.5 + temp / 10 + Math.sin(t * 2) * 0.15;
 
-    // ROTATION
+    // rotation affected by wind speed
     cube.rotation.y += Math.pow(Math.min(windMph,70)/70,2) * 2 * dt;
 
-    // COLOR
+    // color affected by weather condition
     cube.traverse(child=>{
       if(child.isMesh){
         child.material.color.set(weatherColors[code]);
@@ -376,12 +357,12 @@ function animate() {
       }
     });
 
-    // UPDATE UI
+    // update ui
     document.getElementById(`temp${i}`).textContent = tempF;
     document.getElementById(`wind${i}`).textContent = windMph.toFixed(1);
     document.getElementById(`weather${i}`).textContent = weatherText[code];
 
-    // UPDATE LABEL POSITION
+    // update the label's position above the models
     const label = cube.userData.labelElement;
 
     const pos = new THREE.Vector3();
@@ -397,4 +378,5 @@ function animate() {
 
   composer.render();
 }
+
 
