@@ -101,12 +101,14 @@ h1, h2, h3, label {
   color: #444;
 }
 
-/* responsive switch */
+/* responsive switch  -- nvm this isnt working im going home
 @media (max-width: 700px) {
   #cubeControls {
     flex-direction: column;
   }
 }
+
+*/
 
 /* floating labels ahove the cube */
 .cubeLabel {
@@ -119,5 +121,6 @@ h1, h2, h3, label {
   /* the height!! */
   transform: translate(-50%, -400%);
 }
+
 
 
