@@ -57,7 +57,37 @@ const citiesList = [
   { name:"Anchorage, Alaska", lat:61.22, lon:-149.90 }
 ];
 
+//resize camera for cubes so that they fit if the screen is narrow enough
+function fitCameraToCubes(camera, cubes, padding = 1.2) {
+  if (!cubes.length) return;
 
+  const box = new THREE.Box3();
+  cubes.forEach(cube => box.expandByObject(cube));
+
+  const size = new THREE.Vector3();
+  box.getSize(size);
+
+  const center = new THREE.Vector3();
+  box.getCenter(center);
+
+  // Fit horizontally
+  const aspect = camera.aspect;
+  const fov = THREE.MathUtils.degToRad(camera.fov);
+
+  const width = size.x * padding;
+  const height = size.y * padding;
+
+  const distanceForWidth = (width / 2) / Math.tan(fov / 2) / aspect;
+  const distanceForHeight = (height / 2) / Math.tan(fov / 2);
+
+  const distance = Math.max(distanceForWidth, distanceForHeight);
+
+  camera.position.z = center.z + distance;
+  camera.position.x = center.x;
+  camera.position.y = center.y;
+
+  camera.lookAt(center);
+}
 
 //start animation
 init();
@@ -199,6 +229,7 @@ function createInitialCubes() {
 
     fetchWeatherForCube(cube);
   }
+  fitCameraToCubes(camera, cubes);
 }
 
 
@@ -320,6 +351,12 @@ function onWindowResize() {
 
   renderer.setSize(window.innerWidth, window.innerHeight);
   composer.setSize(window.innerWidth, window.innerHeight);
+
+  if (window.innerWidth <= 1000) {
+    fitCameraToCubes(camera, cubes);
+  }
+  //the background WILL collapse and WILL turn into a black screen when a certain ratio is achieved and i dont know how to fix it please forgive me i tried i really did
+  //maybe if i become more experienced i'll understand why it's happening but for now thats all i know
 }
 
 // animation loop
@@ -387,3 +424,4 @@ toggleBtn.addEventListener("click", () => {
     ? "Hide Controls"
     : "Show Controls";
 });
+
