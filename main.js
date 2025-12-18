@@ -79,26 +79,24 @@ function init() {
   renderer = new THREE.WebGLRenderer({ antialias: true });
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.setPixelRatio(window.devicePixelRatio);
-  renderer.shadowMap.enabled = true;
+  // renderer.shadowMap.enabled = true;
   document.body.appendChild(renderer.domElement);
 
   // post processing to add bloom effect (haha my eyes)
   composer = new EffectComposer(renderer);
   composer.addPass(new RenderPass(scene, camera));
 
-  const bloom = new UnrealBloomPass(
+  composer.addPass(new UnrealBloomPass(
     new THREE.Vector2(window.innerWidth, window.innerHeight),
-    0.3,
-    0,
-    0
-  );
-  composer.addPass(bloom);
+    0.3,0,0
+  ));
+  // composer.addPass(bloom);
 
-  // lighting w/ a sun
-  const sun = new THREE.DirectionalLight(0xffffff, 1);
-  sun.position.set(5, 10, 5);
-  scene.add(sun);
-
+  // lighting w/ a sun , nvmno more sun
+  // const sun = 
+  scene.add(new THREE.DirectionalLight(0xffffff, 1));
+  // sun.position.set(5, 10, 5);
+  // scene.add(sun);
   scene.add(new THREE.AmbientLight(0xffffff, 0.3));
   scene.add(new THREE.HemisphereLight(0x00fffd, 0x404040, 0.7));
 
@@ -379,4 +377,13 @@ function animate() {
   composer.render();
 }
 
+// mobile ui toggle
+const ui = document.getElementById("ui");
+const toggleBtn = document.getElementById("uiToggle");
 
+toggleBtn.addEventListener("click", () => {
+  ui.classList.toggle("open");
+  toggleBtn.textContent = ui.classList.contains("open")
+    ? "Hide Controls"
+    : "Show Controls";
+});
