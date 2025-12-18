@@ -12,6 +12,10 @@ h1, h2, h3, label {
   font-weight: 400;
 }
 
+canvas {
+  pointer-events: none;
+}
+
 /* header*/
 #header {
   position: absolute;
@@ -161,4 +165,5 @@ h1, h2, h3, label {
     display: block;
   }
 }
+
 
