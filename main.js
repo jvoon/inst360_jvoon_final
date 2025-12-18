@@ -234,7 +234,9 @@ function createInitialCubes() {
 
     fetchWeatherForCube(cube);
   }
-  fitCameraToCubes(camera, cubes);
+  if (window.innerWidth <= 1000) {
+    fitCameraToCubes(camera, cubes);
+  }
 }
 
 
@@ -429,5 +431,6 @@ toggleBtn.addEventListener("click", () => {
     ? "Hide Controls"
     : "Show Controls";
 });
+
 
 
