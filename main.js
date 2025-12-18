@@ -58,34 +58,39 @@ const citiesList = [
 ];
 
 //resize camera for cubes so that they fit if the screen is narrow enough
-function fitCameraToCubes(camera, cubes, padding = 1.2) {
+function fitCameraToCubes(camera, cubes, padding = 1.3) {
   if (!cubes.length) return;
 
   const box = new THREE.Box3();
-  cubes.forEach(cube => box.expandByObject(cube));
+
+  cubes.forEach(cube => {
+    cube.traverse(obj => {
+      if (obj.isMesh) box.expandByObject(obj);
+    });
+  });
 
   const size = new THREE.Vector3();
   box.getSize(size);
 
+  // extra vertical headroom for animation
+  size.y += 3;
+
   const center = new THREE.Vector3();
   box.getCenter(center);
 
-  // Fit horizontally
   const aspect = camera.aspect;
-  const fov = THREE.MathUtils.degToRad(camera.fov);
+  const vFOV = THREE.MathUtils.degToRad(camera.fov);
+  const hFOV = 2 * Math.atan(Math.tan(vFOV / 2) * aspect);
 
-  const width = size.x * padding;
+  const width  = size.x * padding;
   const height = size.y * padding;
 
-  const distanceForWidth = (width / 2) / Math.tan(fov / 2) / aspect;
-  const distanceForHeight = (height / 2) / Math.tan(fov / 2);
+  const distW = (width  / 2) / Math.tan(hFOV / 2);
+  const distH = (height / 2) / Math.tan(vFOV / 2);
 
-  const distance = Math.max(distanceForWidth, distanceForHeight);
+  const distance = Math.max(distW, distH);
 
-  camera.position.z = center.z + distance;
-  camera.position.x = center.x;
-  camera.position.y = center.y;
-
+  camera.position.set(center.x, center.y, center.z + distance);
   camera.lookAt(center);
 }
 
@@ -424,4 +429,5 @@ toggleBtn.addEventListener("click", () => {
     ? "Hide Controls"
     : "Show Controls";
 });
+
 
