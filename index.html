@@ -22,28 +22,34 @@
 
 <body>
     <!-- header (wow this is bright) -->
-  <header id="header">
-    <h1>Weather Cubes</h1>
-    <p class="subtext">A fun way to get the weather, catch some dopamine, and blast your retinas. (Sunglasses recommended)</p>
+    <header id="header">
+        <h1>Weather Cubes</h1>
+        <p class="subtext">
+            A fun way to get the weather, catch some dopamine, and blast your retinas. (Sunglasses recommended)
+        </p>
+    
+        <p id="subtext">
+            Each cube represents a city! | Height = temperature | Spin = wind speed | Glow color = weather condition
+        </p>
+    
+        <div id="modelButtons">
+            <button id="toggleModelBtn">oeeae</button>
+        </div>
+    </header>
 
-    <p id="subtext">
-      Each cube represents a city! | Height = temperature | Spin = wind speed | Glow color = weather condition
-    </p>
+    <!-- ui button for really mobile view -->
+    <button id="uiToggle">Show Controls</button>
 
-    <div id="modelButtons">
-      <button id="toggleModelBtn">oeeae</button>
-    </div>
-  </header>
-
-  <!-- ui panel at the bottom -->
-  <div id="ui">
-    <h2>Weather Dashboard</h2>
+    <!-- ui panel at the bottom -->
+    <div id="ui">
+        <h2>Weather Dashboard</h2>
         <!-- cube cards -->
         <div id="cubeControls"></div>
     </div>
-
+        
     <!-- update w/ the script -->
     <script type="module" src="main.js"></script>
 </body>
 </html>
+
 
